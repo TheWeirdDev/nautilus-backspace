@@ -1,17 +1,16 @@
 #!/usr/bin/env python
 
-import os, gi
-gi.require_version('Nautilus', '4.1')
+import gi
 gi.require_version('Gtk', '4.0')
-from gi.repository import GObject, Nautilus, Gtk, Gio, GLib
+from gi.repository import GObject, Nautilus, Gtk
+
 
 class BackspaceBack(GObject.GObject, Nautilus.MenuProvider):
     def __init__(self):
         super().__init__()
-        pass
-    
+
     def get_file_items(self, *args):
         app = Gtk.Application.get_default()
-        app.set_accels_for_action("slot.back", ["BackSpace"])
+        if not app.get_actions_for_accel("BackSpace"):
+            app.set_accels_for_action("slot.back", ["BackSpace"])
         return None
-
